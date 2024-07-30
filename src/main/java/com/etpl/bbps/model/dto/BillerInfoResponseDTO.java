@@ -8,7 +8,7 @@ import java.util.List;
 public class BillerInfoResponseDTO{
 	
 	private String responseCode;
-	private List<BillerInfoDto> billers;
+	private List<BillerInfoDto> biller;
 	private List<ErrorInfo> errorInfo;
 	
 	@XmlElement
@@ -21,10 +21,10 @@ public class BillerInfoResponseDTO{
 	
 	@XmlElement
 	public List<BillerInfoDto> getBillers() {
-		return billers;
+		return biller;
 	}
-	public void setBillers(List<BillerInfoDto> billers) {
-		this.billers = billers;
+	public void setBillers(List<BillerInfoDto> biller) {
+		this.biller = biller;
 	}
 	
 	//inner class to represent each billerInfo
@@ -39,7 +39,7 @@ public class BillerInfoResponseDTO{
 	    private String billerSupportBillValidation;
 	    private List<BillerInfoParamsDto> billerInputParams;
 	    private String billerAmountOptions;
-	    private List<String> billerPaymentModels;
+	    private List<String> billerPaymentModes;
 	    private String billerDescription;
 	    private String rechargeAmountInValidationRequest;
 	    
@@ -114,11 +114,11 @@ public class BillerInfoResponseDTO{
 			this.billerAmountOptions = billerAmountOptions;
 		}
 		@XmlElement
-		public List<String> getBillerPaymentModels() {
-			return billerPaymentModels;
+		public List<String> getBillerPaymentModes() {
+			return billerPaymentModes;
 		}
-		public void setBillerPaymentModels(List<String> billerPaymentModels) {
-			this.billerPaymentModels = billerPaymentModels;
+		public void setBillerPaymentModels(List<String> billerPaymentModes) {
+			this.billerPaymentModes = billerPaymentModes;
 		}
 		@XmlElement
 		public String getBillerDescription() {

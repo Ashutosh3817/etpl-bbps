@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,56 +15,54 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.etpl.bbps.model.dto.BillerInfoResponseDTO.BillerInfoParamsDto;
-
 @Entity
-@Table(name="biller_info")
+@Table(name = "biller_info")
 public class BillerInfo {
 
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	@Column(name="biller_id",nullable=false,unique=true)
-	private String billerId;
-	
-	@Column(name="biller_name")
-	private String billerName;
-	
-	
-	@Column(name="biller_category")
-	private String billerCategory;
-	
-	@Column(name="biller_adhoc")
-	private boolean billerAdhoc;
-	
-	@Column(name="biller_coverage")
-	private String billerCoverage;
-	
-	@Column(name="biller_fetch_requirement")
-	private String billerFetchRequirement;
-	
-	@Column(name="biller_payment_exactness")
-	private String billerPaymentExactness;
-	
-	@Column(name="biller_support_bill_validation")
-	private String billerSupportBillValidation;
-	
-	@Column(name="biller_amount_options")
-	private String billerAmountOptions;
-	
-	@Column(name="biller_payment_models", columnDefinition="TEXT")
-	private List<String> billerPaymentModels;
-	
-	@OneToMany(mappedBy = "biller_info",cascade=CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<BillerInputParams> billerInputParams;
-	
-	@Column(name="biller_description")
-	private String billerDescription;
-	
-	@Column(name="recharge_amount_in_validation_request")
-	private String rechargeAmountInValidationRequest;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
+    @Column(name = "biller_id", nullable = false, unique = true)
+    private String billerId;
+
+    @Column(name = "biller_name")
+    private String billerName;
+
+    @Column(name = "biller_category")
+    private String billerCategory;
+
+    @Column(name = "biller_adhoc")
+    private boolean billerAdhoc;
+
+    @Column(name = "biller_coverage")
+    private String billerCoverage;
+
+    @Column(name = "biller_fetch_requirement")
+    private String billerFetchRequirement;
+
+    @Column(name = "biller_payment_exactness")
+    private String billerPaymentExactness;
+
+    @Column(name = "biller_support_bill_validation")
+    private String billerSupportBillValidation;
+
+    @Column(name = "biller_amount_options")
+    private String billerAmountOptions;
+
+    @ElementCollection // Use @ElementCollection for collections of basic types
+    @Column(name = "biller_payment_modes")
+    private List<String> billerPaymentModes;
+
+    @OneToMany(mappedBy = "billerInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BillerInputParams> billerInputParams;
+
+    @Column(name = "biller_description")
+    private String billerDescription;
+
+    @Column(name = "recharge_amount_in_validation_request")
+    private String rechargeAmountInValidationRequest;
+    
 	public long getId() {
 		return id;
 	}
@@ -136,12 +135,12 @@ public class BillerInfo {
 		this.billerAmountOptions = billerAmountOptions;
 	}
 
-	public List<String> getBillerPaymentModels() {
-		return billerPaymentModels;
+	public List<String> getBillerPaymentModes() {
+		return billerPaymentModes;
 	}
 
-	public void setBillerPaymentModels(List<String> billerPaymentModels) {
-		this.billerPaymentModels = billerPaymentModels;
+	public void setBillerPaymentModels(List<String> billerPaymentModes) {
+		this.billerPaymentModes = billerPaymentModes;
 	}
 
 	public List<BillerInputParams> getBillerInputParams() {
@@ -175,8 +174,6 @@ public class BillerInfo {
 	public void setBillerCoverage(String billerCoverage) {
 		this.billerCoverage = billerCoverage;
 	}
-
-
-	}
+}
 	
 	

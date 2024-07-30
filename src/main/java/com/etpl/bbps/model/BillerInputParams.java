@@ -10,35 +10,40 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
+import javax.persistence.*;
+
 @Entity
-@Table(name="biller_input_params")
+@Table(name = "biller_input_params")
 public class BillerInputParams {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="biller_id")
-	private BillerInfo billerInfo;
-	
-	@Column(name="param_name")
-	private String paramName;
-	
-	@Column(name="data_type")
-	private String dataType;
-	
-	@Column(name="is_optional")
-	private boolean isOptional;
-	
-	@Column(name="min_length")
-	private int minLength;
-	
-	@Column(name="max_length")
-	private int maxLength;
-	
-	@Column(name="reg_ex")
-	private String regEx;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "biller_id") 
+    private BillerInfo billerInfo;
+
+    @Column(name = "param_name")
+    private String paramName;
+
+    @Column(name = "data_type")
+    private String dataType;
+
+    @Column(name = "is_optional")
+    private boolean isOptional;
+
+    @Column(name = "min_length")
+    private int minLength;
+
+    @Column(name = "max_length")
+    private int maxLength;
+
+    @Column(name = "reg_ex")
+    private String regEx;
+
+
 
 	public long getId() {
 		return id;
@@ -103,7 +108,6 @@ public class BillerInputParams {
 	public void setRegEx(String regEx) {
 		this.regEx = regEx;
 	}
-	
-	
+
 	
 }
