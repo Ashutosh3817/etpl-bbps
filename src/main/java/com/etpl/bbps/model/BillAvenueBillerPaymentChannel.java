@@ -20,12 +20,13 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
-@Table(name = "TL_bill_Payment_Channel")
+@Table(name = "TL_biller_Payment_Channel")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BillAvenueBillerPaymentChannel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

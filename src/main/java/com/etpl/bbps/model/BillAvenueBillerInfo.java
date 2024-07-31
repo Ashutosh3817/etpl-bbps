@@ -1,4 +1,5 @@
 package com.etpl.bbps.model;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,18 +18,16 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "TT_bill_Avenue_Biller")
-@XmlRootElement(name = "biller")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BillAvenueBillerInfo {
-
-    @XmlElement(name = "responseCode")
-    private String responseCode;
+public class BillAvenueBillerInfo implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
-    @Column(name = "biller_id")
+    @Column(name = "biller_id", length = 255, unique = true)
     @XmlElement(name = "billerId")
     private String billerId;
 
@@ -36,11 +35,11 @@ public class BillAvenueBillerInfo {
     @XmlElement(name = "billerName")
     private String billerName;
 
-    @Column(name = "billerCategory")
+    @Column(name = "biller_category")
     @XmlElement(name = "billerCategory")
     private String billerCategory;
 
-    @Column(name = "billerAdhoc")
+    @Column(name = "biller_adhoc")
     @XmlElement(name = "billerAdhoc")
     private String billerAdhoc;
 
@@ -104,14 +103,25 @@ public class BillAvenueBillerInfo {
     @XmlElement(name = "paymentChannelInfo")
     private List<BillAvenueBillerPaymentChannel> billerPaymentChannels;
 
-    public String getResponseCode() {
-        return responseCode;
-    }
+    @Column(name = "biller_additional_info_payment")
+    @XmlElement(name = "billerAdditionalInfoPayment")
+    private String billerAdditionalInfoPayment;
 
-    public void setResponseCode(String responseCode) {
-        this.responseCode = responseCode;
-    }
+    @Column(name = "plan_additional_info")
+    @XmlElement(name = "planAdditionalInfo")
+    private String planAdditionalInfo;
 
+    @Column(name = "plan_mdm_requirement")
+    @XmlElement(name = "planMdmRequirement")
+    private String planMdmRequirement;
+
+    @Column(name = "biller_response_type")
+    @XmlElement(name = "billerResponseType")
+    private String billerResponseType;
+
+    @Column(name = "biller_plan_response_params")
+    @XmlElement(name = "billerPlanResponseParams")
+    private String billerPlanResponseParams;
 
 
 	public long getId() {
@@ -264,6 +274,46 @@ public class BillAvenueBillerInfo {
 
 	public void setBillerPaymentChannels(List<BillAvenueBillerPaymentChannel> billerPaymentChannels) {
 		this.billerPaymentChannels = billerPaymentChannels;
+	}
+
+	public String getBillerAdditionalInfoPayment() {
+		return billerAdditionalInfoPayment;
+	}
+
+	public void setBillerAdditionalInfoPayment(String billerAdditionalInfoPayment) {
+		this.billerAdditionalInfoPayment = billerAdditionalInfoPayment;
+	}
+
+	public String getPlanAdditionalInfo() {
+		return planAdditionalInfo;
+	}
+
+	public void setPlanAdditionalInfo(String planAdditionalInfo) {
+		this.planAdditionalInfo = planAdditionalInfo;
+	}
+
+	public String getPlanMdmRequirement() {
+		return planMdmRequirement;
+	}
+
+	public void setPlanMdmRequirement(String planMdmRequirement) {
+		this.planMdmRequirement = planMdmRequirement;
+	}
+
+	public String getBillerResponseType() {
+		return billerResponseType;
+	}
+
+	public void setBillerResponseType(String billerResponseType) {
+		this.billerResponseType = billerResponseType;
+	}
+
+	public String getBillerPlanResponseParams() {
+		return billerPlanResponseParams;
+	}
+
+	public void setBillerPlanResponseParams(String billerPlanResponseParams) {
+		this.billerPlanResponseParams = billerPlanResponseParams;
 	}
 
 	
