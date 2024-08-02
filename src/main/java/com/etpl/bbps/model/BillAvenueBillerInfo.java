@@ -10,22 +10,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-@Entity
+
+@Entity(name="BillAvenueBillerInfo")
 @Table(name = "TT_bill_Avenue_Biller")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BillAvenueBillerInfo implements Serializable{
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID")
     private long id;
+
 
     @Column(name = "biller_id", length = 255, unique = true)
     @XmlElement(name = "billerId")

@@ -8,24 +8,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="BillAvenueBillerInputParams")
 @Table(name = "TL_biller_Input_Param")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BillAvenueBillerInputParams {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
-    private Long id;
+	@Column(name = "ID")
+    private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "biller_id")
+    //@JoinColumn(name = "biller_id")
     private BillAvenueBillerInfo billerInfo;
 
     @Column(name = "param_name")

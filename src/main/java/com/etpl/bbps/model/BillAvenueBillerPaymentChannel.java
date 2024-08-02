@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,18 +20,18 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Entity
+@Entity(name="BillAvenueBillerPaymentChannel")
 @Table(name = "TL_biller_Payment_Channel")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BillAvenueBillerPaymentChannel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@Column(name = "ID")
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "biller_id")
+    //@JoinColumn(name = "biller_id")
     private BillAvenueBillerInfo billerInfo;
 
     @Column(name = "payment_channel_name")

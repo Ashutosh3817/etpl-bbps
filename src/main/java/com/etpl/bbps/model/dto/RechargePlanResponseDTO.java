@@ -1,4 +1,4 @@
-package com.etpl.bbps.dto;
+package com.etpl.bbps.model.dto;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
