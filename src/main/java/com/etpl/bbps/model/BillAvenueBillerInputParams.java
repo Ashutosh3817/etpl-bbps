@@ -21,9 +21,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class BillAvenueBillerInputParams {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-    private long id;
+	private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "biller_id")
@@ -54,7 +54,7 @@ public class BillAvenueBillerInputParams {
     private Boolean visibility;
 
     // Getters and Setters
-	public Long getId() {
+    public Long getId() {
 		return id;
 	}
 

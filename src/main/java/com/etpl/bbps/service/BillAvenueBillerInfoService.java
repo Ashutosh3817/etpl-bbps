@@ -87,42 +87,16 @@ public class BillAvenueBillerInfoService {
 	            throw e;
 	        }
 	    }
-//	    @Transactional
-//	    public void clearExistingData1() {
-//	        System.out.println("Clearing existing data...");
-//
-//	        try {
-//	            // disable foreign key checks
-//	            entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0").executeUpdate();
-//
-//	            // truncate queries
-//	            entityManager.createNativeQuery("TRUNCATE TABLE TL_biller_Payment_Channel").executeUpdate();
-//	            entityManager.createNativeQuery("TRUNCATE TABLE TL_biller_Input_Param").executeUpdate();
-//	            entityManager.createNativeQuery("TRUNCATE TABLE TT_bill_Avenue_Biller").executeUpdate();
-//	          
-//	            
-//	            // enable foreign key checks
-//	            entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
-//	         // Reset sequence
-//	           // entityManager.createNativeQuery("ALTER SEQUENCE biller_id_seq RESTART WITH 1").executeUpdate();
-//	            System.out.println("Deleted all data.");
-//	        } catch (Exception e) {
-//	            e.printStackTrace();
-//	            
-//	        }
-//	    }
+
 	    @Transactional
 	    public void clearAndResetData() {
 	        try {
-	            // Disable foreign key checks
 	            entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 0").executeUpdate();
 
-	            // Truncate child tables first due to foreign key constraints
 	            truncateAndResetAutoIncrement("TL_biller_Input_Param");
 	            truncateAndResetAutoIncrement("TL_biller_Payment_Channel");
 	            truncateAndResetAutoIncrement("TT_bill_Avenue_Biller");
 
-	            // Enable foreign key checks
 	            entityManager.createNativeQuery("SET FOREIGN_KEY_CHECKS = 1").executeUpdate();
 
 	            System.out.println("Cleared existing data and reset auto-increment.");
@@ -134,35 +108,15 @@ public class BillAvenueBillerInfoService {
 
 	    private void truncateAndResetAutoIncrement(String tableName) {
 	        try {
-	            // Truncate the table
+	           
 	            entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
 
-	            // Reset the auto-increment counter
 	            entityManager.createNativeQuery("ALTER TABLE " + tableName + " AUTO_INCREMENT = 1").executeUpdate();
 
-	            System.out.println("Truncated and reset auto-increment for table: " + tableName);
+	            //System.out.println("Truncated and reset auto-increment for table: " + tableName);
 	        } catch (Exception e) {
-	            System.err.println("Exception during truncating table " + tableName + ": " + e.getMessage());
+	           // System.err.println("Exception during truncating table " + tableName + ": " + e.getMessage());
 	            e.printStackTrace();
 	        }
-	    }
-
-
-	    public static String removeBOM(String xml) {
-	        if (xml != null && xml.startsWith("\uFEFF")) {
-	            xml = xml.substring(1);
-	        }
-	        return xml;
-	    }
-
-	    public static String cleanXml(String xml) {
-	        if (xml == null) {
-	            return null;
-	        }
-	        // Remove BOM and trim the string
-	        xml = removeBOM(xml).trim();
-	        
-	        // Optionally, further clean up XML content if needed
-	        return xml;
 	    }
 	}

@@ -1,9 +1,22 @@
 package com.etpl.bbps.service;
 
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.etpl.bbps.common.AESUtil;
 import com.etpl.bbps.common.RequestIdGenerator;
@@ -51,82 +64,65 @@ public class RechargePlanService {
 		//Prepare the RequestPayload 
 		HttpHeaders headers = new HttpHeaders();
 		
-		headers.setC
+		headers.setContentType(MediaType.APPLICATION_XML);
+		
+		String apiRequestXml = createApiRequest(encryptedRequest,requestId);
+		
+		HttpEntity<String> requestEntity = new HttpEntity<>(apiRequestXml,headers);
+		//call the api and get the encrypted response
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> responseEntity = restTemplate.exchange(
+				stagingApiUrl + "?accessCode="+accessCode+"&requestId="+requestId+"&ver=1.0&instituteId="+instituteId,
+				HttpMethod.POST,
+				requestEntity,
+				String.class
+				);
+		//we get the encrypted response in the string format
+		
+		String encryptedResponse = responseEntity.getBody();
+		
+		//Decrypt the response
+		String responseXml = AESUtil.decrypt(encryptedResponse
+				);
+		
+		//convert the xml to dto
+		return convertToDto(responseXml,RechargePlanResponseDTO.class);
 	}
 	
-}
+	private String convertToXml(RechargePlanRequestDTO requestDto){ 
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(RechargePlanRequestDTO.class);
+			Marshaller marshaller = jaxbContext.createMarshaller();
+			StringWriter sw = new StringWriter();
+			marshaller.marshal(requestDto,sw);
+			return sw.toString();
+			//xml data returned in the string format
+		}
+		catch(JAXBException e) {
+			throw new RuntimeException("Error in converting the object to xml",e);
+		}
+	}
+	
+	private RechargePlanResponseDTO convertToDto(String xml,Class<RechargePlanResponseDTO> class1) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(RechargePlanResponseDTO.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			StringReader reader = new StringReader(xml);
+			return (RechargePlanResponseDTO) unmarshaller.unmarshal(reader);
+		}
+		catch(JAXBException e) {
+			throw new RuntimeException("Error converting XML to ResponseDto",e);
+		}
+	}
 
-/*
-    public RechargePlanResponseDto getRechargePlans(RechargePlanRequestDto requestDto) {
-        // Convert request DTO to XML
-        String xmlRequest = convertToXml(requestDto);
-
-        // Encrypt the XML request
-        String encryptedRequest = AESUtil.encrypt(xmlRequest);
-
-        // Generate a unique request ID
-        String requestId = generateRequestId();
-
-        // Prepare the request payload
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_XML);
-
-        String apiRequestXml = createApiRequest(encryptedRequest, requestId);
-        HttpEntity<String> requestEntity = new HttpEntity<>(apiRequestXml, headers);
-
-        // Call the API and get the encrypted response
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.exchange(
-                apiUrl + "?accessCode=" + accessCode + "&requestId=" + requestId + "&ver=1.0&instituteId=" + instituteId,
-                HttpMethod.POST,
-                requestEntity,
-                String.class
-        );
-
-        String encryptedResponse = responseEntity.getBody();
-
-        // Decrypt the response
-        String responseXml = AESUtil.decrypt(encryptedResponse);
-
-        // Convert the response XML to DTO
-        return convertFromXml(responseXml, RechargePlanResponseDto.class);
-    }
-
-    private String convertToXml(Object object) {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            StringWriter sw = new StringWriter();
-            marshaller.marshal(object, sw);
-            return sw.toString();
-        } catch (JAXBException e) {
-            throw new RuntimeException("Error converting object to XML", e);
-        }
-    }
-
-    private <T> T convertFromXml(String xml, Class<T> clazz) {
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            StringReader reader = new StringReader(xml);
-            return (T) unmarshaller.unmarshal(reader);
-        } catch (JAXBException e) {
-            throw new RuntimeException("Error converting XML to object", e);
-        }
-    }
-
-    private String createApiRequest(String encryptedRequestXml, String requestId) {
-        return "<request>" +
+	private String createApiRequest(String encryptedRequestXml,String requestId) {
+		return "<request>" +
                 "<accessCode>" + accessCode + "</accessCode>" +
                 "<encRequest>" + encryptedRequestXml + "</encRequest>" +
                 "<requestId>" + requestId + "</requestId>" +
                 "<instituteId>" + instituteId + "</instituteId>" +
                 "<ver>1.0</ver>" +
                 "</request>";
-    }
-
-    private String generateRequestId() {
-        return java.util.UUID.randomUUID().toString();
-    }
+	}
 }
-*/
+

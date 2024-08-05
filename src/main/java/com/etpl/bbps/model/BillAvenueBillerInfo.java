@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class BillAvenueBillerInfo implements Serializable{
     private static final long serialVersionUID = 1L;
 
-    @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-    private long id;
+	private Long id;
 
 
     @Column(name = "biller_id", length = 255, unique = true)
@@ -126,12 +126,11 @@ public class BillAvenueBillerInfo implements Serializable{
     @XmlElement(name = "billerPlanResponseParams")
     private String billerPlanResponseParams;
 
-
-	public long getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
